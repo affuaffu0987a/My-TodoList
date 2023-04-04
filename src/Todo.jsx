@@ -1,9 +1,20 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-
+const getLocalData=()=>{
+    let list=localStorage.getItem('WorkList')
+    if(list){
+        return JSON.parse(list);
+    }else{
+        return[];
+    }
+}
 const Todo = () => {
     const[inputData,setInputData]=useState("");
-    const[OnList,SetOnList]=useState([])
+    const[OnList,SetOnList]=useState(getLocalData())
+
+    useEffect(()=>{
+    localStorage.setItem('WorkList',JSON.stringify(OnList));
+    },[OnList])
 
     const ShowList=(eve)=>{
         setInputData(eve.target.value)
